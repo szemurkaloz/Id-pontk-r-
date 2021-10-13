@@ -1,0 +1,151 @@
+cache clean --force
+Kérdés
+1: A kérdés hosszának ellenőrzése mekkorát adhat meg attol függhet a méret
+
+GetDateList speciális visszatérési értékei:
+Nem array tömböt kapsz csak egy dátumot
+nem kapsz vissza semmit,válasz megérkezik de üres --Nincs kipublikálva dátum
+1900-01-01: frissítenie kell új verzióra
+1900-01-02: nincs szabad időpont
+1900-01-03: letiltott paciens
+
+
+Foglalásnál megelőztek 0 kapsz vissza
+
+(Licensid + OrvosId + Paciensid) = ez adja ki a soap id -t
+
+Beolvasott qrqode:  Array [
+  "9912-19AD37AE-0C9B-469C-A276-E29DE19F53BC-3F17F842-8C3F-4C6E-B970-6988D194317B",
+  "A Dallos Leletek",
+  "1959-06-06",
+  "Monika PK",
+  "asszisztens",
+]
+
+Kérdések a kérdéseklistában
+KÉRDÉSEK: [
+  {
+    "id": "0",
+    "question": "Lázas?",
+    "status": false
+  },
+  {
+    "id": "1",
+    "question": "Köhög?",
+    "status": false
+  },
+  {
+    "id": "2",
+    "question": "Íz- és szagérzékelés zavara.",
+    "status": false
+  }
+]
+
+Idópontok a listában
+{"key":"2021-08-06T08:00:00.000+02:00","label":"08:00"}
+{"key":"2021-08-06T08:15:00.000+02:00","label":"08:15"}
+{"key":"2021-08-06T08:30:00.000+02:00","label":"08:30"}
+{"key":"2021-08-06T08:45:00.000+02:00","label":"08:45"}
+
+expo build:android --type app-bundle --release-channel android
+eas submit --platform android    <= feltöltése az playstorba  https://docs.expo.dev/submit/android/
+npx expo-optimize
+npx expo credentials:manager
+expo fetch:android:keystore
+keytool -importcert -file upload_cert.der -keystore original-signing-keystore.jks
+keytool -printcert -jarfile mm_checkin-e6d0383f98014454bc6a71c3c73eabba-signed.aab
+
+getuserinfo adja vissza az orvos üzenetét
+
+dátumon csak egy időpont van
+SOAPRESZPONSE: {"SOAP-ENV:Envelope":{"SOAP-ENV:Body":{"NS1:GetTimeListResponse":{"return":{"item":"2021-08-23T08:00:00.000+02:00"}}}}}
+SOAPRESZPONSE: {"SOAP-ENV:Envelope":{"SOAP-ENV:Body":{"NS1:GetTimeListResponse":{"return":{"item":["2021-08-17T09:00:00.000+02:00","2021-08-17T09:30:00.000+02:00","2021-08-17T09:45:00.000+02:00"]}}}}}
+
+Ezt kapom vissza ha nincs dátum kipublikálva de a felhasználó engedélyezve van
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:NS1="urn:MMAppointmentIntf-IMMAppointment">
+    <NS1:GetUserInfoResponse>
+      <return xsi:type="xsd:string"></return>
+    </NS1:GetUserInfoResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+
+doctor listában töltöm föl a nem tárolt tulajdonságokat
+Object {
+  "cimke": "Sss",
+  "fogIdopont": null,
+  "id": "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-CA95E89E-9186-4730-839A-04D4AD19D236",
+  "key": "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-CA95E89E-9186-4730-839A-04D4AD19D236",
+  "kozlemeny": null,
+  "orvos": "",
+  "paciensNev": "A-Sztatin Teszt",
+  "szerep": "asszisztens",
+  "szulDatum": "2001-01-03",
+}
+
+//https://docs.nativebase.io/responsive-style#the-array-syntax
+const breakpoints = {
+  base: 0,
+  sm: 480,
+  md: 768,
+  lg: 992,
+  xl: 1280,
+};
+
+RESULT Object {
+  "datuma": Object {
+    "key": "1900-01-02T00:00:00.000+01:00",
+    "label": "",
+    "uzenet": "Nincs elérhető szabad időpont.",
+  },
+  "kozlemeny": "x",
+}
+Value id: 9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354
+RESULT Object {
+  "datuma": Object {
+    "key": "2021-09-08T00:00:00.000+02:00",
+    "label": "2021.09.08. 00:00",
+    "uzenet": "Önnek már van dátuma",
+  },
+  "kozlemeny": "Szeptemberben szabadságon vagyok",
+}
+Value id: 9912-FF27BF52-B980-4429-8A12-E8F4D8E99704-4DE3F19C-C325-455D-94E5-3A6ED5D9A92C
+RESULT Object {
+  "datuma": Object {
+    "key": "2021-09-08T11:00:00.000+02:00",
+    "label": "2021.09.08. 11:00",
+    "uzenet": "Önnek már van dátuma",
+  },
+  "kozlemeny": "Ha lemondaná későbbiekben az előjegyzését, kérem, hívja a 62/248-302-es telefonszámot.",
+}
+Value id: 9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD
+RESULT Object {
+  "datuma": Object {
+    "key": "1900-01-02T00:00:00.000+01:00",
+    "label": "",
+    "uzenet": "Nincs elérhető szabad időpont.",
+  },
+  "kozlemeny": null,
+}
+
+Object {
+  "fogIdopont": Object {
+    "key": "1900-01-02T00:00:00.000+01:00",
+    "label": "",
+    "uzenet": "Nincs elérhető szabad időpont.",
+  },
+  "id": "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5",
+  "key": "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5",
+  "kozlemeny": "x",
+  "orvos": "Mónika PKPlus",
+  "paciensNev": "3 Év Alatti Gyermek",
+  "szerep": "orvos",
+  "szulDatum": "2018-01-31",
+}
+adatlap 
+  az url elojegyzes.hu legyen, és hivatkozásként működjön hogy működik?
+  Home ikon még beljebb
+  Az oldal tetején a címsor olyan legyen, mint a Kapcsolatok oldalon, 
+  tehát fehér hátterű, balra igazítva, és házikó ikon helyett a menü ikonja legyen itt is.
+

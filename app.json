@@ -1,0 +1,42 @@
+{
+    "expo": {
+        "name": "MedMax Időpontkérő",
+        "slug": "medmax_idopontkero",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/doctor.png",
+        "splash": {
+            "image": "./assets/doctor.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#FFFFFF"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "ios": {
+            "bundleIdentifier": "com.profix.mm-checkin",
+            "buildNumber": "1.0.2",
+            "supportsTablet": false,
+            "infoPlist": {
+                "NSCameraUsageDescription": "This app uses the camera to scan barcod in doctor's email."
+            }
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "android": {
+            "package": "com.profix.medmax_idopontkero",
+            "versionCode": 3,
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/doctor.png"
+            },
+            "permissions": [
+                "CAMERA"
+            ],
+            "softwareKeyboardLayoutMode": "pan"
+        }
+    }
+}

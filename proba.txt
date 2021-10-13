@@ -1,0 +1,418 @@
+
+
+KÉRDÉSEK: {
+  "SOAP-ENV:Envelope": {
+    "attr": {
+      "@_xmlns:SOAP-ENV": "http://schemas.xmlsoap.org/soap/envelope/",
+      "@_xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+      "@_xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "@_xmlns:SOAP-ENC": "http://schemas.xmlsoap.org/soap/encoding/"
+    },
+    "SOAP-ENV:Body": {
+      "attr": {
+        "@_SOAP-ENV:encodingStyle": "http://schemas.xmlsoap.org/soap/encoding/",
+        "@_xmlns:NS1": "urn:MMAppointmentIntf-IMMAppointment"
+      },
+      "NS1:GetKerdesekResponse": {
+        "return": {
+          "attr": {
+            "@_xsi:type": "xsd:string"
+          },
+          "FDBS": {
+            "attr": {
+              "@_Version": "15"
+            },
+            "Manager": {
+              "attr": {
+                "@_UpdatesRegistry": "True"
+              },
+              "TableList": {
+                "Table": {
+                  "attr": {
+                    "@_Name": "_FD_TAB",
+                    "@_TabID": "0",
+                    "@_EnforceConstraints": "False",
+                    "@_MinimumCapacity": "50",
+                    "@_CheckNotNull": "False"
+                  },
+                  "ColumnList": {
+                    "Column": [
+                      {
+                        "attr": {
+                          "@_Name": "ID",
+                          "@_SourceName": "ID",
+                          "@_SourceID": "1",
+                          "@_DataType": "Int32",
+                          "@_Precision": "10",
+                          "@_Searchable": "True",
+                          "@_AllowNull": "True",
+                          "@_ReadOnly": "True",
+                          "@_AutoInc": "True",
+                          "@_Base": "True",
+                          "@_AutoIncrementSeed": "-1",
+                          "@_AutoIncrementStep": "-1",
+                          "@_OAllowNull": "True",
+                          "@_OReadOnly": "True",
+                          "@_OInWhere": "True",
+                          "@_OAfterInsChanged": "True",
+                          "@_OriginColName": "ID",
+                          "@_SourcePrecision": "10"
+                        }
+                      },
+                      {
+                        "attr": {
+                          "@_Name": "c_Kerdes",
+                          "@_SourceName": "c_Kerdes",
+                          "@_SourceID": "2",
+                          "@_DataType": "AnsiString",
+                          "@_Size": "100",
+                          "@_Searchable": "True",
+                          "@_Base": "True",
+                          "@_OInUpdate": "True",
+                          "@_OInWhere": "True",
+                          "@_OriginColName": "c_Kerdes",
+                          "@_SourcePrecision": "100",
+                          "@_SourceSize": "100"
+                        }
+                      }
+                    ]
+                  },
+                  "ConstraintList": "",
+                  "ViewList": "",
+                  "RowList": {
+                    "Row": [
+                      {
+                        "attr": {
+                          "@_RowID": "0"
+                        },
+                        "Original": {
+                          "attr": {
+                            "@_ID": "1",
+                            "@_c_Kerdes": "Lázas?"
+                          }
+                        }
+                      },
+                      {
+                        "attr": {
+                          "@_RowID": "1"
+                        },
+                        "Original": {
+                          "attr": {
+                            "@_ID": "2",
+                            "@_c_Kerdes": "Köhög?"
+                          }
+                        }
+                      },
+                      {
+                        "attr": {
+                          "@_RowID": "2"
+                        },
+                        "Original": {
+                          "attr": {
+                            "@_ID": "3",
+                            "@_c_Kerdes": "Íz- és szagérzékelés zavara."
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "RelationList": "",
+              "UpdatesJournal": {
+                "attr": {
+                  "@_SavePoint": "3"
+                },
+                "Changes": {
+                  "Change": [
+                    {
+                      "attr": {
+                        "@_TabID": "0",
+                        "@_RowID": "0",
+                        "@_ChangeNumber": "0"
+                      }
+                    },
+                    {
+                      "attr": {
+                        "@_TabID": "0",
+                        "@_RowID": "1",
+                        "@_ChangeNumber": "1"
+                      }
+                    },
+                    {
+                      "attr": {
+                        "@_TabID": "0",
+                        "@_RowID": "2",
+                        "@_ChangeNumber": "2"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+diff --git a/src/screens/AppointmentScreen.js b/src/screens/AppointmentScreen.js
+index 2a9f41a..09e37c3 100644
+--- a/src/screens/AppointmentScreen.js
++++ b/src/screens/AppointmentScreen.js
+@@ -1,7 +1,7 @@
+ import React, { useState, useEffect } from 'react';
+ 
+-import { View, Text, FlatList } from 'react-native';
+-import { ListItem, Button } from 'react-native-elements';
++import { View, Text, FlatList, Alert } from 'react-native';
++import { ListItem, Button, CheckBox } from 'react-native-elements';
+ import Constants from 'expo-constants';
+ import Parser from 'fast-xml-parser';
+ import he from 'he';
+@@ -16,7 +16,11 @@ const xmlGetTimeList = `
+ <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body xmlns:NS1="urn:MMAppointmentIntf-IMMAppointment" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><NS1:GetTimeList><pPassword xsi:type="xsd:string">$password$</pPassword><pId xsi:type="xsd:string">$id$</pId><pDate xsi:type="xsd:dateTime">$date$</pDate></NS1:GetTimeList></SOAP-ENV:Body></SOAP-ENV:Envelope>
+ `;
+ 
+-const xmlOptions = {
++const xmlGetQuestions = `
++<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"><SOAP-ENV:Body xmlns:NS1="urn:MMAppointmentIntf-IMMAppointment" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><NS1:GetKerdesek><pPassword xsi:type="xsd:string">$password$</pPassword><pId xsi:type="xsd:string">$id$</pId></NS1:GetKerdesek></SOAP-ENV:Body></SOAP-ENV:Envelope>
++`;
++
++const xmlOptionsV1 = {
+     attributeNamePrefix: '@_',
+     attrNodeName: 'attr', //default is 'false'
+     textNodeName: '#text',
+@@ -36,17 +40,94 @@ const xmlOptions = {
+     stopNodes: ['parse-me-as-string'],
+ };
+ 
++const xmlOptionsV2 = {
++    attributeNamePrefix: '@_',
++    attrNodeName: 'attr', //default is 'false'
++    textNodeName: '#text',
++    ignoreAttributes: false, // <---
++    ignoreNameSpace: false,
++    allowBooleanAttributes: false,
++    parseNodeValue: true,
++    parseAttributeValue: false,
++    trimValues: true,
++    cdataTagName: '__cdata', //default is 'false'
++    cdataPositionChar: '\\c',
++    parseTrueNumberOnly: false,
++    arrayMode: false, //"strict"
++    attrValueProcessor: (val, attrName) =>
++        he.decode(val, { isAttributeValue: true }), //default is a=>a
++    tagValueProcessor: (val, tagName) => he.decode(val), //default is a=>a
++    stopNodes: ['parse-me-as-string'],
++};
++
+ // TODO: remove duplicate code
+ export default function AppointmentScreen({ route }) {
+     const [page, setPage] = useState('default');
+     const [dateList, setDateList] = useState([]);
+     const [timeList, setTimeList] = useState([]);
++    const [questionList, setQuestionList] = useState({});
+     const [communicationCode, setCommunicationCode] = useState('');
+     const [earlierPages, setEarlierPages] = useState([]);
+     const [selectedItems, setSelectedItems] = useState({});
+ 
+     let pages = [];
+ 
++    const fetchGetQuestions = async () => {
++        try {
++            const resp = await fetch(
++                'http://mediserver.hu/MedMaxWebService/MMAppointment.exe/soap/IMMAppointment',
++                {
++                    method: 'POST',
++                    headers: {
++                        Accept: 'text/xml, application/xml',
++                        'Content-Type': 'text/xml, application/xml',
++                    },
++                    body: xmlGetQuestions
++                        .replace(
++                            '$password$',
++                            Constants.manifest.extra.mm_password
++                        )
++                        .replace('$id$', communicationCode),
++                }
++            );
++
++            let xml = await resp.text();
++
++            function unEscapeHTML(escapedHTML) {
++                return escapedHTML
++                    .toString()
++                    .replace(/&amp;/g, '&')
++                    .replace(/&lt;/g, '<')
++                    .replace(/&gt;/g, '>')
++                    .replace(/&quot;/g, '"')
++                    .replace(/&#039;/g, "'");
++            }
++
++            xml = unEscapeHTML(xml);
++
++            const tObj = Parser.getTraversalObj(xml, xmlOptionsV2);
++            const x = await Parser.convertToJson(tObj, xmlOptionsV2);
++
++            const tempQuestions = [];
++
++            const t =
++                x['SOAP-ENV:Envelope']['SOAP-ENV:Body'][
++                    'NS1:GetKerdesekResponse'
++                ].return.FDBS.Manager.TableList.Table.RowList.Row;
++            for (let i = 0; i < t.length; i++) {
++                tempQuestions.push({
++                    id: i.toString(),
++                    question: t[i].Original.attr['@_c_Kerdes'],
++                    status: false,
++                });
++            }
++
++            setQuestionList(tempQuestions);
++        } catch (err) {
++            console.log(err);
++        }
++    };
++
+     const fetchGetDateList = async () => {
+         try {
+             const resp = await fetch(
+@@ -67,8 +148,8 @@ export default function AppointmentScreen({ route }) {
+             );
+ 
+             const xml = await resp.text();
+-            const tObj = Parser.getTraversalObj(xml, xmlOptions);
+-            const x = await Parser.convertToJson(tObj, xmlOptions);
++            const tObj = Parser.getTraversalObj(xml, xmlOptionsV1);
++            const x = await Parser.convertToJson(tObj, xmlOptionsV1);
+             const item =
+                 x['SOAP-ENV:Envelope']['SOAP-ENV:Body'][
+                     'NS1:GetDateListResponse'
+@@ -113,8 +194,8 @@ export default function AppointmentScreen({ route }) {
+             );
+ 
+             const xml = await resp.text();
+-            const tObj = Parser.getTraversalObj(xml, xmlOptions);
+-            const x = await Parser.convertToJson(tObj, xmlOptions);
++            const tObj = Parser.getTraversalObj(xml, xmlOptionsV1);
++            const x = await Parser.convertToJson(tObj, xmlOptionsV1);
+             const item =
+                 x['SOAP-ENV:Envelope']['SOAP-ENV:Body'][
+                     'NS1:GetTimeListResponse'
+@@ -178,6 +259,7 @@ export default function AppointmentScreen({ route }) {
+ 
+     useEffect(() => {
+         if (communicationCode !== '') {
++            fetchGetQuestions();
+             fetchGetDateList();
+         }
+     }, [communicationCode]);
+@@ -188,7 +270,7 @@ export default function AppointmentScreen({ route }) {
+         }
+     }, [dateList]);
+ 
+-    const BottomButtonGroup = () => {
++    const BottomButtonGroup = (props) => {
+         return (
+             <View
+                 style={{
+@@ -196,6 +278,36 @@ export default function AppointmentScreen({ route }) {
+                     justifyContent: 'flex-end',
+                 }}
+             >
++                {props.nextButton && (
++                    <Button
++                        title='Következő'
++                        onPress={() => {
++                            if (questionList.some((q) => q.status === true)) {
++                                Alert.alert(
++                                    'Kérem hívja fel az orvosát!',
++                                    'Látatlanban nem kaphat időpontot.',
++                                    [
++                                        {
++                                            text: 'Értem',
++                                        },
++                                    ]
++                                );
++                            } else {
++                                setPage('dateSelection');
++                                setEarlierPages(
++                                    arrayPush(earlierPages, 'questions')
++                                );
++                            }
++                        }}
++                        buttonStyle={{
++                            backgroundColor: '#056935',
++                            borderRadius: 0,
++                        }}
++                        titleStyle={{ color: '#F5F5F5', fontSize: 24 }}
++                        disabledStyle={{ opacity: 0.5 }}
++                        iconContainerStyle={{ margin: 10 }}
++                    />
++                )}
+                 <Button
+                     title='Előző'
+                     onPress={() => {
+@@ -254,6 +366,25 @@ export default function AppointmentScreen({ route }) {
+         </ListItem>
+     );
+ 
++    const renderQuestionItem = ({ item }) => {
++        return (
++            <CheckBox
++                title={item.question}
++                checked={item.status}
++                onPress={() => {
++                    const index = questionList.findIndex((x, i) => {
++                        return x.id === item.id;
++                    });
++
++                    const newQuestionList = Array.from(questionList);
++                    newQuestionList[index].status = !item.status;
++
++                    setQuestionList(newQuestionList);
++                }}
++            />
++        );
++    };
++
+     pages['default'] = () => {
+         <View
+             style={{
+@@ -268,12 +399,33 @@ export default function AppointmentScreen({ route }) {
+ 
+     pages['switch'] = () => {
+         if (!Array.isArray(dateList)) {
+-            setPage('alreadyHaveDate');
++            //setPage('alreadyHaveDate');
++            setPage('questions');
+         } else {
+-            setPage('dateSelection');
++            //setPage('dateSelection');
++            setPage('questions');
+         }
+     };
+ 
++    pages['questions'] = () => {
++        console.log('q page OK');
++
++        return (
++            <View style={{ height: '100%' }}>
++                <Text style={{ fontSize: 24, textAlign: 'center' }}>
++                    Kérdések
++                </Text>
++                <FlatList
++                    data={questionList}
++                    renderItem={renderQuestionItem}
++                    keyExtractor={(item) => item.id}
++                    style={{ height: '90%' }}
++                />
++                <BottomButtonGroup nextButton='true' />
++            </View>
++        );
++    };
++
+     pages['alreadyHaveDate'] = () => {
+         return (
+             <View

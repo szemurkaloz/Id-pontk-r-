@@ -1,0 +1,21 @@
+
+ha mozgatni akarsz egy fájlt:
+    git mv ./src/regi.js ./src/uj.js
+
+ha törölni akarsz egy fájlt:
+    git rm teszt.js
+
+ha hozzáadtál/létrehoztál új fájlt:
+    git add .
+
+----------------------
+
+commit:
+    git commit -a -m "üzenet"
+
+commit feltolása:
+    git push
+
+változások lekérése:
+    git pull
+
