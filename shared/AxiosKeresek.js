@@ -2,7 +2,7 @@
 import React from "react";
 import axios from 'axios';
 import Parser from 'fast-xml-parser';
-import {SERVER_URL} from '@env';
+import {SERVER_URL, TESZTSERVER_URL} from '@env';
 import array from 'lodash/array';
 import moment from 'moment';
 import NetInfo from "@react-native-community/netinfo";
@@ -86,7 +86,7 @@ export const DatumUzenetek = datum => {
 
 export const fetchUsernakUzenet = async aktId => {
   return axios
-    .post(`${SERVER_URL}`, getUserInfoEnvelop.replace('KULCSOK', aktId), {
+    .post(`${getSzerverUrl(aktId)}`, getUserInfoEnvelop.replace('KULCSOK', aktId), {
       headers: getAktHeader(USER_INFO),
     })
     .then(response => {
@@ -125,7 +125,7 @@ export const fetchListaKerdesek = async aktId => {
   //console.log(aktId);
   //aktId = '9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354'
   return axios
-    .post(`${SERVER_URL}`, getKerdesekEnvelop.replace('KULCSOK', aktId), {
+    .post(`${getSzerverUrl(aktId)}`, getKerdesekEnvelop.replace('KULCSOK', aktId), {
       headers: getAktHeader(KERDESEK),
     })
     .then(response => {
@@ -172,7 +172,7 @@ export const fetchListaDate = async aktId => {
   //console.log('Lekért ID!:',aktId);
   //console.log('SERVER_URL!:',SERVER_URL);
   return axios
-    .post(`${SERVER_URL}`, getDateListEnvelope.replace('KULCSOK', aktId), {
+    .post(`${getSzerverUrl(aktId)}`, getDateListEnvelope.replace('KULCSOK', aktId), {
       headers: getAktHeader(DATUM_LIST),
     })
     .then(response => {
@@ -221,7 +221,7 @@ export const fetchListaIdo = async (aktId, datum) => {
   //console.log('IDŐPONTOTT KÉR: ', datum)
   return axios
     .post(
-      `${SERVER_URL}`,
+      `${getSzerverUrl(aktId)}`,
       getTimeListEnvelop
         .replace('KULCSOK', aktId)
         .replace('FOGLALASDATUMA', datum.key),
@@ -278,7 +278,7 @@ export const fetchDatumLefoglalas = async (aktId, fogIdo, uzenet) => {
   //console.log("IDŐPONT", fogIdo.key);
   return axios
     .post(
-      `${SERVER_URL}`,
+      `${getSzerverUrl(aktId)}`,
       getFoglalasEnvelop.replace('KULCSOK', aktId)
       .replace('IDOPONT', fogIdo)
       .replace('UZENET', uzenet),
@@ -373,4 +373,11 @@ export function setSzerverAllapot () {
     reachabilityRequestTimeout: 15 * 1000, // 15s
   });
     
+}
+
+function getSzerverUrl (azonosito) {
+  //liszencszám leválasztása
+  const str = azonosito.slice(0,3);
+  if(str === "9912") return TESZTSERVER_URL
+  return SERVER_URL
 }

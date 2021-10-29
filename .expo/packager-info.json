@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
+  "expoServerPort": null,
   "packagerPort": 19000,
   "packagerPid": null,
   "expoServerNgrokUrl": "https://qz-bgy.szemurkaloz.id-pontk-r.exp.direct",
   "packagerNgrokUrl": "https://packager.qz-bgy.szemurkaloz.id-pontk-r.exp.direct",
-  "ngrokPid": 78955,
+  "ngrokPid": 78234,
   "webpackServerPort": null
 }

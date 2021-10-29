@@ -29,7 +29,7 @@
         },
         "android": {
             "package": "com.profix.medmax_idopontkero",
-            "versionCode": 3,
+            "versionCode": 4,
             "adaptiveIcon": {
                 "foregroundImage": "./assets/doctor.png"
             },
