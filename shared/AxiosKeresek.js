@@ -78,7 +78,7 @@ export const DatumUzenetek = datum => {
       return {key: datum, label: '', uzenet: 'Nincs elérhető szabad időpont.'};
     case 3:
       // 1900-01-03
-      return {key: datum, label: '', uzenet: 'Elnézést, de ön levan tiltva.'};
+      return {key: datum, label: '', uzenet: 'Elnézést, de ön le van tiltva.'};
   }
   //console.log(result)
   return null;
@@ -169,8 +169,9 @@ export const fetchListaKerdesek = async aktId => {
 
 export const fetchListaDate = async aktId => {
   //'9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-C9CE58F8-76DF-4AEF-8030-718A54A25F60'
+  //'9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-A6AD43AF-4AD5-42DE-857E-4F04E8FF3022#A Zerős Elemér#1985-05-06#Kovács József#orvos
   //console.log('Lekért ID!:',aktId);
-  //console.log('SERVER_URL!:',SERVER_URL);
+  //console.log('SERVER_URL!:',getSzerverUrl(aktId));
   return axios
     .post(`${getSzerverUrl(aktId)}`, getDateListEnvelope.replace('KULCSOK', aktId), {
       headers: getAktHeader(DATUM_LIST),
@@ -377,7 +378,9 @@ export function setSzerverAllapot () {
 
 function getSzerverUrl (azonosito) {
   //liszencszám leválasztása
-  const str = azonosito.slice(0,3);
+  const str = azonosito.slice(0,4);
+  //console.log('SLTesztICE',TESZTSERVER_URL);
+  //console.log('SLICE',str);
   if(str === "9912") return TESZTSERVER_URL
   return SERVER_URL
 }
