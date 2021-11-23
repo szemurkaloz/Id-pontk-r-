@@ -47,6 +47,7 @@ Idópontok a listában
 {"key":"2021-08-06T08:30:00.000+02:00","label":"08:30"}
 {"key":"2021-08-06T08:45:00.000+02:00","label":"08:45"}
 
+eas build --platform android --másik fajta feltöltés
 expo build:android --type app-bundle --release-channel android
 eas submit --platform android    <= feltöltése az playstorba  https://docs.expo.dev/submit/android/
 npx expo-optimize
