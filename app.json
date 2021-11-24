@@ -17,7 +17,7 @@
             "**/*"
         ],
         "ios": {
-            "bundleIdentifier": "com.profix.medmax_idopontkero",
+            "bundleIdentifier": "com.profix.elojegyzes",
             "buildNumber": "1.0.2",
             "supportsTablet": false,
             "infoPlist": {
@@ -28,7 +28,7 @@
             "favicon": "./assets/favicon.png"
         },
         "android": {
-            "package": "com.profix.medmax_idopontkero",
+            "package": "com.profix.elojegyzes",
             "versionCode": 6,
             "adaptiveIcon": {
                 "foregroundImage": "./assets/doctor.png"
