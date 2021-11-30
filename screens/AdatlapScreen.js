@@ -46,11 +46,11 @@ export function AdatlapScreen(props) {
                 color: 'yellow.400',
                 fontSize: 18,
               }}
-              hrf="https://elojegyzes.hu"
+              hrf="https://elojegyzes.hu/checkin/"
               isExternal
               onPress={handleOpenWithLinking}
             >
-              https://elojegyzes.hu
+              https://elojegyzes.hu/checkin/
             </Link>
             <HStack>
               <Text fontSize={18} ml={5} mt={1} color='white' >
