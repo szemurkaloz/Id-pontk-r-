@@ -1,11 +1,11 @@
 import React from 'react';
-import {HStack, Text, Flex, Link, Stack, Center} from 'native-base';
+import { HStack, Text, Flex, Link, Stack, Center } from 'native-base';
 import Constants from 'expo-constants';
-import {ImageBackground} from 'react-native';
+import { ImageBackground } from 'react-native';
 //import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
 
-import {AppBar} from '../components/AppBar'; 
+import { AppBar } from '../components/AppBar';
 
 export function AdatlapScreen(props) {
   const handleOpenWithLinking = () => {
@@ -14,10 +14,10 @@ export function AdatlapScreen(props) {
 
   return (
     <>
-    <AppBar navigation={props.navigation} screenTitle="Névjegy" />
-    <Flex
-       w="100%"
-       h="100%"
+      <AppBar navigation={props.navigation} screenTitle="Névjegy" />
+      <Flex
+        w="100%"
+        h="100%"
         bg={{
           linearGradient: {
             colors: ["#B5D275", "#0F5538", "#001216"],
@@ -26,21 +26,21 @@ export function AdatlapScreen(props) {
           },
         }}
         justifyContent="flex-start"
-    >
-      <Center 
-       mt={30}>
-        <Stack>
-          <Text fontSize={22} ml={5} color='white' >
+      >
+        <Center
+          mt={30}>
+          <Stack>
+            <Text fontSize={22} ml={5} color='white' >
               ProFix Kft.
-          </Text>
-          <Text fontSize={18} ml={5} mt={1} color='white' >
+            </Text>
+            <Text fontSize={18} ml={5} mt={1} color='white' >
               6800 Hódmezővásárhely, Szegfű u. 1-3.
-          </Text>
-          <Text fontSize={18} ml={5} mt={1} color='white' >
+            </Text>
+            <Text fontSize={18} ml={5} mt={1} color='white' >
               info@medmax.hu
-          </Text>
+            </Text>
             <Link
-              ml={5} 
+              ml={5}
               mt={1}
               _text={{
                 color: 'yellow.400',
@@ -49,21 +49,21 @@ export function AdatlapScreen(props) {
               hrf="https://elojegyzes.hu"
               isExternal
               onPress={handleOpenWithLinking}
-              >
+            >
               https://elojegyzes.hu
             </Link>
-          <HStack>
-            <Text fontSize={18} ml={5} mt={1} color='white' >
-              Verzió:
-            </Text>
-            <Text fontSize={18} ml={5} mt={1} color='white' >
-              {Constants.manifest.android.versionCode}.(
-              {Constants.manifest.version})
-            </Text>
-          </HStack>
-        </Stack>
-      </Center>
-    </Flex>
+            <HStack>
+              <Text fontSize={18} ml={5} mt={1} color='white' >
+                Verzió:
+              </Text>
+              <Text fontSize={18} ml={5} mt={1} color='white' >
+                {Constants.manifest.android.versionCode}.(
+                {Constants.manifest.version})
+              </Text>
+            </HStack>
+          </Stack>
+        </Center>
+      </Flex>
     </>
   );
 }
