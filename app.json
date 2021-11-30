@@ -29,7 +29,7 @@
         },
         "android": {
             "package": "com.profix.elojegyzes",
-            "versionCode": 6,
+            "versionCode": 7,
             "adaptiveIcon": {
                 "foregroundImage": "./assets/doctor.png"
             },

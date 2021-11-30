@@ -9,7 +9,7 @@ import { AppBar } from '../components/AppBar';
 
 export function AdatlapScreen(props) {
   const handleOpenWithLinking = () => {
-    Linking.openURL("http://elojegyzes.hu/checkin/");
+    Linking.openURL("http://elojegyzes.hu/");
   };
 
   return (
@@ -46,11 +46,11 @@ export function AdatlapScreen(props) {
                 color: 'yellow.400',
                 fontSize: 18,
               }}
-              hrf="https://elojegyzes.hu/checkin/"
+              hrf="http://elojegyzes.hu/"
               isExternal
               onPress={handleOpenWithLinking}
             >
-              https://elojegyzes.hu/checkin/
+              http://elojegyzes.hu/
             </Link>
             <HStack>
               <Text fontSize={18} ml={5} mt={1} color='white' >

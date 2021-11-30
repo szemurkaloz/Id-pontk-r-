@@ -13,7 +13,7 @@ export function DrawerContent(props) {
       <DrawerItemList {...props}  />
       <DrawerItem
         label="Segítség"
-        onPress={() => Linking.openURL('http://elojegyzes.hu/checkin/')}
+        onPress={() => Linking.openURL('http://elojegyzes.hu/')}
         activeBackgroundColor="#27272a"
         inactiveBackgroundColor="#166534"
         labelStyle={{color: '#FFFFFF'}}

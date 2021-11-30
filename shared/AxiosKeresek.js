@@ -58,6 +58,14 @@ export const DatumUzenetek = datum => {
   const d = new Date(datum);
 
   if (d.getFullYear() !== 1900) {
+    //Ha a időpont T00:00:00.000+01:00
+    //Nincs időpont1 1638313200000
+    let time = d.toTimeString().slice(0,8);
+    //console.log('Nincs időpont1',time)
+    if (time === "00:00:00"){
+      //console.log('Nincs időpont2')
+      return [datum]; 
+    }
     return {
       key: datum,
       label: moment(d).format('YYYY.MM.DD. HH:mm'),
@@ -194,12 +202,18 @@ export const fetchListaDate = async aktId => {
         if (!Array.isArray(items.item)) {
           //Nincs array csak egy dátum
           //console.log('foglalt ido item: ',items)
-          //console.log('foglalt ido: ',items.item)
+          console.log('foglalható napok vagy nap: ',items.item)
           //setdatumTomb(items.item);
           //setIsValid(false);
-          console.log('foglalt ido: ',DatumUzenetek(items.item))
-
-          return DatumUzenetek(items.item);
+          //console.log('foglalt ido: ',DatumUzenetek(items.item))
+          //Ha csak egy foglalható nap van akkor nem tömböt kapok vissza
+          //"key": "2021-12-01T00:00:00.000+01:00",
+          //időpontot kell ellenőriznem Dátum üzenetekbe átrakom tömbe ha foglalható nap
+          let eredmeny = DatumUzenetek(items.item);
+          let objectConstructor = {}.constructor;
+          if (eredmeny.constructor === objectConstructor) {
+            return eredmeny;
+          }else {items.item = eredmeny}
         }
         //Ismétlések kiszűrése
         let tomb = array.uniqBy(items.item);
