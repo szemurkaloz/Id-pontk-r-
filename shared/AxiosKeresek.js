@@ -197,7 +197,8 @@ export const fetchListaDate = async aktId => {
           //console.log('foglalt ido: ',items.item)
           //setdatumTomb(items.item);
           //setIsValid(false);
-          //console.log('foglalt ido: ',DatumUzenetek(items.item))
+          console.log('foglalt ido: ',DatumUzenetek(items.item))
+
           return DatumUzenetek(items.item);
         }
         //Ismétlések kiszűrése
