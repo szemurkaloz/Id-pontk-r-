@@ -55,6 +55,7 @@ npx expo credentials:manager
 expo fetch:android:keystore
 keytool -importcert -file upload_cert.der -keystore original-signing-keystore.jks
 keytool -printcert -jarfile mm_checkin-e6d0383f98014454bc6a71c3c73eabba-signed.aab
+expo fetch:android:hashes Visszaadja a használt kulcsot
 
 getuserinfo adja vissza az orvos üzenetét
 
